@@ -2,7 +2,14 @@ package com.jumble.userservice.service;
 
 import com.jumble.userservice.model.AppUser;
 import com.jumble.userservice.repository.UserRepository;
+import com.jumble.userservice.utils.JwtUtil;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +23,12 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public AppUser registerUser(AppUser user) {
         // Check if username already exists
@@ -37,12 +50,12 @@ public class UserService {
 
 
     public String loginUser(AppUser user) {
-        AppUser existingUser = userRepository.findByUsername(user.getUsername());
-        if (existingUser != null && passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
-            // Generate a token (JWT or other) and return it
-            return "dummy-token"; // Replace with actual token generation logic
-        } else {
-            throw new RuntimeException("Invalid credentials");
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+            AppUser authenticatedUser = (AppUser) authentication.getPrincipal();
+            return jwtUtil.generateToken(authenticatedUser);
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Invalid Credentials"+ e);
         }
     }
 

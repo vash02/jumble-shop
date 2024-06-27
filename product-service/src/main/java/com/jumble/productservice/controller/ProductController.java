@@ -1,6 +1,9 @@
 package com.jumble.productservice.controller;
 
 import com.jumble.productservice.model.Product;
+import com.jumble.productservice.model.ProductAvailabilityRequest;
+import com.jumble.productservice.model.ProductAvailabilityResponse;
+import com.jumble.productservice.service.ProductAvailabilityService;
 import com.jumble.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductAvailabilityService productAvailabilityService;
 
     @PostMapping("/create")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
@@ -43,5 +49,11 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/check-availability")
+    public ResponseEntity<ProductAvailabilityResponse> checkAvailability(@RequestBody ProductAvailabilityRequest request) {
+        ProductAvailabilityResponse response = productAvailabilityService.checkAvailability(request);
+        return ResponseEntity.ok(response);
     }
 }

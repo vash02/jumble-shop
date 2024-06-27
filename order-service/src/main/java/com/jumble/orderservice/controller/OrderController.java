@@ -1,9 +1,14 @@
 package com.jumble.orderservice.controller;
 
 import com.jumble.orderservice.model.Order;
+import com.jumble.orderservice.model.OrderRequest;
+import com.jumble.orderservice.model.ProductAvailabilityResponse;
 import com.jumble.orderservice.service.OrderService;
+import com.jumble.orderservice.service.ProductClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +20,23 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private ProductClient productClient;
+
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.createOrder(order);
-        return ResponseEntity.ok(createdOrder);
+    public ResponseEntity<?> createOrder(@RequestBody Order order) {
+        try {
+            ProductAvailabilityResponse availabilityResponse = productClient.checkProductAvailability(order.getProductId(), order.getQuantity());
+
+            if (!availabilityResponse.isAvailable()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product not available in the requested quantity");
+            }
+
+            Order createdOrder = orderService.createOrder(order);
+            return ResponseEntity.ok(createdOrder);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("get/{id}")
