@@ -7,7 +7,7 @@ FROM amazoncorretto:17-alpine
 WORKDIR /app
 
 # Copy the packaged JAR file
-COPY build/libs/user-service.jar /app/userservice.jar
+COPY ./build/libs/user-service.jar /app/userservice.jar
 
 # Expose port if needed
 EXPOSE 8080

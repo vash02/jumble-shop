@@ -4,7 +4,7 @@ services:
   user-service:
     build:
       context: .
-      dockerfile: ./UserService/Dockerfile
+      dockerfile: /Users/vaibhav/my-repos/jumble-shop/user-service/Dockerfile
     image: user-service:latest
     ports:
       - "8081:8080"
@@ -12,11 +12,13 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
     networks:
       - mynetwork
+    deploy:
+      replicas: 3
 
   order-service:
     build:
       context: .
-      dockerfile: ./OrderService/Dockerfile
+      dockerfile: /Users/vaibhav/my-repos/jumble-shop/order-service/Dockerfile
     image: order-service:latest
     ports:
       - "8082:8080"
@@ -26,11 +28,13 @@ services:
       - user-service
     networks:
       - mynetwork
+    deploy:
+      replicas: 3
 
   product-service:
     build:
       context: .
-      dockerfile: ./ProductService/Dockerfile
+      dockerfile: /Users/vaibhav/my-repos/jumble-shop/product-service/Dockerfile
     image: product-service:latest
     ports:
       - "8083:8080"
@@ -40,6 +44,8 @@ services:
       - order-service
     networks:
       - mynetwork
+    deploy:
+      replicas: 3
 
 networks:
   mynetwork:

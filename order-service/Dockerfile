@@ -7,7 +7,7 @@ FROM amazoncorretto:17-alpine
 WORKDIR /app
 
 # Copy the packaged JAR file
-COPY build/libs/order-service.jar /app/orderservice.jar
+COPY /Users/vaibhav/my-repos/jumble-shop/order-service/build/libs/order-service.jar /app/orderservice.jar
 
 # Expose port if needed
 EXPOSE 8081
