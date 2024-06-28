@@ -1,4 +1,4 @@
-# Jumble-Shop E-commerce Application
+# Jumble-Shop E-commerce Application Backend
 
 ## Overview
 Jumble-Shop is an e-commerce application built using microservices architecture. It consists of three main services: user-service, product-service, and order-service. 
