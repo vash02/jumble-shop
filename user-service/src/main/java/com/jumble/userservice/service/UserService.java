@@ -1,6 +1,7 @@
 package com.jumble.userservice.service;
 
 import com.jumble.userservice.model.AppUser;
+import com.jumble.userservice.model.Order;
 import com.jumble.userservice.repository.UserRepository;
 import com.jumble.userservice.utils.JwtUtil;
 import org.apache.catalina.User;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class UserService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private OrderClientService orderClientService;
 
     public AppUser registerUser(AppUser user) {
         // Check if username already exists

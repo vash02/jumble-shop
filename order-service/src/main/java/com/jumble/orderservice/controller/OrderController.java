@@ -27,7 +27,7 @@ public class OrderController {
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
         try {
             ProductAvailabilityResponse availabilityResponse = productClient.checkProductAvailability(order.getProductId(), order.getQuantity());
-
+            System.out.println("availability response "+availabilityResponse);
             if (!availabilityResponse.isAvailable()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product not available in the requested quantity");
             }

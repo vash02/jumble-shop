@@ -19,19 +19,19 @@ public class OrderClientService {
 
     public Order placeOrder(OrderRequest orderRequest, String token) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
+        headers.set("Authorization", "Bearer " + token);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<OrderRequest> requestEntity = new HttpEntity<>(orderRequest, headers);
 
-        ResponseEntity<Order> response = restTemplate.exchange(
+        ResponseEntity<Order> responseEntity = restTemplate.exchange(
                 ordersServiceUrl + "/api/orders/create",
                 HttpMethod.POST,
                 requestEntity,
                 Order.class
         );
 
-        return response.getBody();
+        return responseEntity.getBody();
     }
 }
 
