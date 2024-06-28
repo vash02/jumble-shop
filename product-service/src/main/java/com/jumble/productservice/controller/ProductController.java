@@ -51,7 +51,7 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/check-availability")
+    @PostMapping("/availability")
     public ResponseEntity<ProductAvailabilityResponse> checkAvailability(@RequestBody ProductAvailabilityRequest request) {
         ProductAvailabilityResponse response = productAvailabilityService.checkAvailability(request);
         return ResponseEntity.ok(response);

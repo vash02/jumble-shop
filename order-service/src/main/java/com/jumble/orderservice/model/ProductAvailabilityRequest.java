@@ -1,9 +1,7 @@
-package com.jumble.productservice.model;
+package com.jumble.orderservice.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,7 +9,6 @@ public class ProductAvailabilityRequest {
     private Long productId;
     private int quantity;
 
-    // Constructors, getters, and setters
     public ProductAvailabilityRequest() {
     }
 
@@ -19,5 +16,4 @@ public class ProductAvailabilityRequest {
         this.productId = productId;
         this.quantity = quantity;
     }
-
 }

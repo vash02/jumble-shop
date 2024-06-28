@@ -7,7 +7,6 @@ import com.jumble.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// ProductAvailabilityService.java (in Product Service)
 @Service
 public class ProductAvailabilityService {
 
@@ -18,7 +17,7 @@ public class ProductAvailabilityService {
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        boolean isAvailable = product.getStockQuantity() >= request.getRequestedQuantity();
+        boolean isAvailable = product.getStockQuantity() >= request.getQuantity();
         return new ProductAvailabilityResponse(isAvailable, product.getStockQuantity());
     }
 }
