@@ -1,10 +1,12 @@
 package com.jumble.userservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jumble.userservice.model.AppUser;
 import com.jumble.userservice.model.Order;
 import com.jumble.userservice.model.OrderRequest;
 import com.jumble.userservice.service.OrderClientService;
 import com.jumble.userservice.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,8 @@ public class UserController {
     private RestTemplate restTemplate;
     @Autowired
     private OrderClientService orderClientService;
+    @Autowired
+    public HttpSession session;
 
     @GetMapping("/{id}")
     public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
@@ -44,10 +48,14 @@ public class UserController {
 
     @PostMapping("/placeOrder")
     public ResponseEntity<Order> placeOrder(@RequestBody OrderRequest order) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String token = (String) authentication.getCredentials(); // Assuming the token is stored as credentials
+        String token = (String) session.getAttribute("JWT_TOKEN");
 
-        Order createdOrder = orderClientService.placeOrder(order, token);
+        Order createdOrder = null;
+        try {
+            createdOrder = orderClientService.placeOrder(order, token);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Order-Status", "Order Placed Successfully");

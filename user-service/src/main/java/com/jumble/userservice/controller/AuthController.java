@@ -2,6 +2,7 @@ package com.jumble.userservice.controller;
 
 import com.jumble.userservice.model.AppUser;
 import com.jumble.userservice.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,9 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    public HttpSession session;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody AppUser user) {
@@ -28,6 +32,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody AppUser user) {
         String token = userService.loginUser(user);
+        session.setAttribute("JWT_TOKEN", token);
         return ResponseEntity.ok(token);
     }
 }

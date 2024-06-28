@@ -1,12 +1,13 @@
 package com.jumble.userservice.utils;
 
 import com.jumble.userservice.model.AppUser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.function.Function;
 
 import java.util.Date;
@@ -41,10 +42,28 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+
+    public String extractEmail(String token) throws SignatureException {
+        byte[] secretKeyBytes = secretKey.getBytes(); // Convert secret key to bytes
+
+        // Create a SecretKey instance from secretKeyBytes
+        SecretKey hmacKey = new SecretKeySpec(secretKeyBytes, "HmacSHA256");
+
+        // Parse the token and extract claims
+        Claims claims = Jwts.parser()
+                .setSigningKey(hmacKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        // Extract and return the subject (which typically contains the email)
+        return claims.getSubject();
+    }
+
+        public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();

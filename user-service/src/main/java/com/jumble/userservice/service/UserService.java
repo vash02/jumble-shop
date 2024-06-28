@@ -32,12 +32,10 @@ public class UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private OrderClientService orderClientService;
 
     public AppUser registerUser(AppUser user) {
         // Check if username already exists
-        Optional<AppUser> existingUserByUsername = Optional.ofNullable(userRepository.findByUsername(user.getUsername()));
+        Optional<AppUser> existingUserByUsername = userRepository.findByUsername(user.getUsername());
         if (existingUserByUsername.isPresent()) {
             throw new RuntimeException("Username already exists");
         }
@@ -68,8 +66,14 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("id not found"));
     }
 
+    public Long getUserIdByUsername(String username) {
+        AppUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+        return user.getId();
+    }
+
     public AppUser getUserByUsername(String username) {
-        Optional<AppUser> userOptional = Optional.ofNullable(userRepository.findByUsername(username));
+        Optional<AppUser> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isPresent()) {
             return userOptional.get();
@@ -77,6 +81,7 @@ public class UserService {
             throw new RuntimeException("User not found with username: " + username);
         }
     }
+
 
 
     public void deleteUser(Long id) {
