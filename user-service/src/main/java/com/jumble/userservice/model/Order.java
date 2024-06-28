@@ -1,6 +1,8 @@
 package com.jumble.userservice.model;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -8,10 +10,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Order {
+    @NotNull
     private Long id;
+    @NotNull
     private Long productId;
+    @NotNull
     private int quantity;
     private String status;
+    @NonNull
     private Long userId;
     private LocalDateTime orderDate;
 

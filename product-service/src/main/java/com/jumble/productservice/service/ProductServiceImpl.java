@@ -2,6 +2,7 @@ package com.jumble.productservice.service;
 
 import com.jumble.productservice.model.Product;
 import com.jumble.productservice.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Product updateProduct(Long id, Product productDetails) {
         Product product = productRepository.findById(id).orElse(null);
@@ -36,6 +38,17 @@ public class ProductServiceImpl implements ProductService {
             product.setDescription(productDetails.getDescription());
             product.setPrice(productDetails.getPrice());
             product.setStockQuantity(productDetails.getStockQuantity());
+            return productRepository.save(product);
+        }
+        return null;
+    }
+
+    @Transactional
+    public Product updateProductQuantity(Long id, int quantity){
+        Product product = productRepository.findById(id).orElse(null);
+        if(product != null){
+            int initStockQuantity = product.getStockQuantity();
+            product.setStockQuantity(initStockQuantity - quantity);
             return productRepository.save(product);
         }
         return null;

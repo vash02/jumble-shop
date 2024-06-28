@@ -31,8 +31,9 @@ public class OrderController {
             if (!availabilityResponse.isAvailable()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Product not available in the requested quantity");
             }
+        //Pessimistic Locking for creating order entries in DB
+            Order createdOrder = orderService.createOrderWithLock(order);
 
-            Order createdOrder = orderService.createOrder(order);
             return ResponseEntity.ok(createdOrder);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

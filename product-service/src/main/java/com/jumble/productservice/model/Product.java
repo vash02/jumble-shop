@@ -17,7 +17,18 @@ public class Product {
 
     private String name;
     private String description;
-    private BigDecimal price;
+    private double price;
     private Integer stockQuantity;
 
+    public Product(String name, String description, double price, int stockQuantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+
+    }
+
+    public Product() {
+
+    }
 }

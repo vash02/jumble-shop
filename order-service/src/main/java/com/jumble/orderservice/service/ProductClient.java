@@ -4,10 +4,7 @@ import com.jumble.orderservice.model.ProductAvailabilityRequest;
 import com.jumble.orderservice.model.ProductAvailabilityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,5 +29,25 @@ public class ProductClient {
         ResponseEntity<ProductAvailabilityResponse> response = restTemplate.exchange(url, HttpMethod.POST, entity, ProductAvailabilityResponse.class);
 
         return response.getBody();
+    }
+
+    public void updateProductQuantity(Long productId, int quantity) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ProductAvailabilityRequest request = new ProductAvailabilityRequest(productId, quantity);
+
+        HttpEntity<ProductAvailabilityRequest> requestEntity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<Void> response = restTemplate.exchange(
+                productsServiceUrl + "/updateQuantity",
+                HttpMethod.PUT,
+                requestEntity,
+                Void.class
+        );
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Failed to update product quantity");
+        }
     }
 }

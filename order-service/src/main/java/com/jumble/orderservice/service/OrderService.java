@@ -9,4 +9,5 @@ public interface OrderService {
     Order getOrderById(Long id);
     List<Order> getOrdersByUserId(Long userId);
     Order updateOrderStatus(Long id, String status);
+    Order createOrderWithLock(Order order);
 }

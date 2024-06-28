@@ -56,4 +56,10 @@ public class ProductController {
         ProductAvailabilityResponse response = productAvailabilityService.checkAvailability(request);
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/updateQuantity")
+    public ResponseEntity<Product> updateProductQuantity(@RequestBody ProductAvailabilityRequest request) {
+        Product updatedProduct = productService.updateProductQuantity(request.getProductId(), request.getQuantity());
+        return ResponseEntity.ok(updatedProduct);
+    }
 }
