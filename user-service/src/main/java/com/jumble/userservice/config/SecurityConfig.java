@@ -39,7 +39,7 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**", "/api/users/**").permitAll()
-                .requestMatchers("/api/users/placeOrder").permitAll()
+                .requestMatchers("/swagger-ui/**","/api/users/placeOrder","/v3/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

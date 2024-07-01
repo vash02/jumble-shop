@@ -6,6 +6,7 @@ import com.jumble.userservice.model.Order;
 import com.jumble.userservice.model.OrderRequest;
 import com.jumble.userservice.service.OrderClientService;
 import com.jumble.userservice.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
+@SecurityRequirement(name = "Authorization")
 @RequestMapping("/api/users")
 public class UserController {
 

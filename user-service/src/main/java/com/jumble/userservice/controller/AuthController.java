@@ -1,6 +1,7 @@
 package com.jumble.userservice.controller;
 
 import com.jumble.userservice.model.AppUser;
+import com.jumble.userservice.model.LoginRequest;
 import com.jumble.userservice.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody AppUser user) {
-        String token = userService.loginUser(user);
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        String token = userService.loginUser(loginRequest);
         session.setAttribute("JWT_TOKEN", token);
         return ResponseEntity.ok(token);
     }

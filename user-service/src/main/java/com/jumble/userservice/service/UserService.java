@@ -1,6 +1,7 @@
 package com.jumble.userservice.service;
 
 import com.jumble.userservice.model.AppUser;
+import com.jumble.userservice.model.LoginRequest;
 import com.jumble.userservice.model.Order;
 import com.jumble.userservice.repository.UserRepository;
 import com.jumble.userservice.utils.JwtUtil;
@@ -52,7 +53,7 @@ public class UserService {
     }
 
 
-    public String loginUser(AppUser user) {
+    public String loginUser(LoginRequest user) {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
             AppUser authenticatedUser = (AppUser) authentication.getPrincipal();

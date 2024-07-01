@@ -60,37 +60,20 @@ public class OrderServiceImpl implements OrderService {
         // Perform authentication and retrieve userId
         Long userId = order.getUserId();
 
-        // Use pessimistic write lock to prevent concurrent modification
-        entityManager
-                .createQuery("SELECT o FROM Order o WHERE o.id = :orderId", Order.class)
-                .setParameter("orderId", order.getId())
-                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
-                .getResultList();
+        // Create new order
+        Order newOrder = new Order();
+        newOrder.setProductId(order.getProductId());
+        newOrder.setQuantity(order.getQuantity());
+        newOrder.setOrderDate(LocalDateTime.now());
+        newOrder.setStatus("PENDING");
+        newOrder.setUserId(userId);
 
-        // Proceed with order creation or update
-        Optional<Order> existingOrder = orderRepository.findById(order.getId());
-        Order newOrder;
-        if (existingOrder.isPresent()) {
-            newOrder = existingOrder.get();
-            // Update order fields as needed
-            newOrder.setProductId(order.getProductId());
-            newOrder.setQuantity(order.getQuantity());
-            newOrder.setOrderDate(LocalDateTime.now());
-            newOrder.setStatus("PENDING");
-            newOrder.setUserId(userId);
-
-        } else {
-            // Create a new order
-            newOrder = new Order();
-            newOrder.setProductId(order.getProductId());
-            newOrder.setQuantity(order.getQuantity());
-            newOrder.setOrderDate(LocalDateTime.now());
-            newOrder.setStatus("PENDING");
-            newOrder.setUserId(userId); // Set the userId
-
-
-        }
+        // Update product quantity
         productClient.updateProductQuantity(order.getProductId(), order.getQuantity());
+
+        // Save and return the order
         return orderRepository.save(newOrder);
     }
+
+
 }

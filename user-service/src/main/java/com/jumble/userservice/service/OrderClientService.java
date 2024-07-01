@@ -41,8 +41,8 @@ public class OrderClientService {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("productId", orderRequest.getProductId());
         requestBody.put("quantity", orderRequest.getQuantity());
-        requestBody.put("orderDate", null); // Example: Set your orderDate appropriately
-        requestBody.put("status", null); // Example: Set your status appropriately
+        requestBody.put("orderDate", null);
+        requestBody.put("status", null);
         requestBody.put("userId", userService.getUserIdByUsername(jwtUtil.extractUsername(token)));
 
         // Convert map to JSON string

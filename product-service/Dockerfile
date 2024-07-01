@@ -7,7 +7,7 @@ FROM amazoncorretto:17-alpine
 WORKDIR /app
 
 # Copy the packaged JAR file
-COPY /Users/vaibhav/my-repos/jumble-shop/product-service/build/libs/product-service.jar /app/productservice.jar
+COPY ./build/libs/product-service.jar /app/productservice.jar
 
 # Expose port if needed
 EXPOSE 8082

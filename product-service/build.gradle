@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.5'
+//	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 }
 
 group = 'com.jumble'
@@ -32,7 +33,6 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-web'
 	implementation 'org.springframework.security:spring-security-crypto'
 	implementation 'org.springframework.security:spring-security-core'
-	// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
 	compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -44,6 +44,9 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.16'
+
 }
 tasks.named('test') {
 	useJUnitPlatform()
