@@ -1,4 +1,4 @@
-# Jumble-Shop E-commerce Application
+# Jumble-Shop E-commerce Application Backend
 
 ## Overview
 Jumble-Shop is an e-commerce application built using microservices architecture. It consists of three main services: user-service, product-service, and order-service. 
@@ -84,36 +84,59 @@ docker-compose.yml
 ```
 
 ```bash
-version: '3'
+version: '3.8'
+
 services:
   user-service:
-    image: user-service
+    build:
+      context: .
+      dockerfile: /Users/vaibhav/my-repos/jumble-shop/user-service/Dockerfile
+    image: user-service:latest
     ports:
-      - "8080:8080"
-    depends_on:
-      - mysql-db
-
-  product-service:
-    image: product-service
-    ports:
-      - "8081:8081"
-    depends_on:
-      - mysql-db
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 3
 
   order-service:
-    image: order-service
+    build:
+      context: .
+      dockerfile: /Users/vaibhav/my-repos/jumble-shop/order-service/Dockerfile
+    image: order-service:latest
     ports:
-      - "8082:8082"
-    depends_on:
-      - mysql-db
-
-  mysql-db:
-    image: mysql:latest
+      - "8082:8080"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: jumbledb
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - user-service
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 3
+
+  product-service:
+    build:
+      context: .
+      dockerfile: /Users/vaibhav/my-repos/jumble-shop/product-service/Dockerfile
+    image: product-service:latest
     ports:
-      - "3306:3306"
+      - "8083:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - order-service
+    networks:
+      - mynetwork
+    deploy:
+      replicas: 3
+
+networks:
+  mynetwork:
+    driver: bridge
+
 ```
 
 ### Running Docker Compose
