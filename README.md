@@ -90,7 +90,7 @@ services:
   user-service:
     build:
       context: .
-      dockerfile: /Users/vaibhav/my-repos/jumble-shop/user-service/Dockerfile
+      dockerfile: ./Dockerfile
     image: user-service:latest
     ports:
       - "8081:8080"
@@ -104,7 +104,7 @@ services:
   order-service:
     build:
       context: .
-      dockerfile: /Users/vaibhav/my-repos/jumble-shop/order-service/Dockerfile
+      dockerfile: ./Dockerfile
     image: order-service:latest
     ports:
       - "8082:8080"
@@ -120,7 +120,7 @@ services:
   product-service:
     build:
       context: .
-      dockerfile: /Users/vaibhav/my-repos/jumble-shop/product-service/Dockerfile
+      dockerfile: ./Dockerfile
     image: product-service:latest
     ports:
       - "8083:8080"
@@ -185,6 +185,6 @@ For end to end testing of inter service communication and API call functioning a
 will add the collection to git repository, so that one can try and reproduce the results.
 
 ## Notes
-
+- The above instructions are for setting up the DB and psring boot application on local system.
 - Ensure Docker and Docker Compose are properly configured and running on your system.
 
