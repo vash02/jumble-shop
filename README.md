@@ -150,6 +150,23 @@ docker-compose up
 - **Product Service:** [http://localhost:8081](http://localhost:8081)
 - **Order Service:** [http://localhost:8082](http://localhost:8082)
 
+## Access Swagger UI
+
+- **User Service:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- **Product Service:** [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+- **Order Service:** [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+
+## Testing APIs using Swagger UI
+1. Open the Swagger UI for the desired service.
+2. Authorize by clicking on the "Authorize" button and entering the JWT token.
+3. Execute API calls by selecting the desired endpoint, filling in the required parameters, and clicking "Execute".
+4. Review the response directly within the Swagger UI to verify the API's behavior.
+## Note: 
+- Sample Requests can be found with the collection
+- JWT can be obtained by hiting login API with login credentials, which need to be creted first using register API for user service.
+- With Swagger UI, there is documentation available at the end point with sample API requests.
+
+
 ## Additional Configuration
 
 Each service require specific configurations for database connections, environment variables, etc.
@@ -185,6 +202,6 @@ For end to end testing of inter service communication and API call functioning a
 will add the collection to git repository, so that one can try and reproduce the results.
 
 ## Notes
-- The above instructions are for setting up the DB and psring boot application on local system.
+- All 3 services need to be up for inter service calls to work.
+- The above instructions are for setting up the DB and spring boot application on local system.
 - Ensure Docker and Docker Compose are properly configured and running on your system.
-
