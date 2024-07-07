@@ -18,7 +18,7 @@ Each service is responsible for managing specific functionalities of the applica
 ### Prerequisites
 1. Java Development Kit (JDK) 17
 2. Docker
-3. MySQL Database
+3. PostgreSQL Database
 
 ### Steps to Setup Each Microservice
 
